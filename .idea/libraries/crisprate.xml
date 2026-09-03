@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="crisprate">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/crisprate.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
