@@ -9,7 +9,7 @@ import jakarta.persistence.Transient;
 @DiscriminatorValue("FAST_FOOD_CHAIN")
 public class FastFoodChain extends Establishment {
 
-    @Column(nullable = false)
+    @Column
     private String chainName;
 
     @Transient

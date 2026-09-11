@@ -21,7 +21,18 @@
 
     <div sec:authorize="isAuthenticated()" class="my-4 p-3 border rounded">
         <h5>Leave a rating</h5>
-        <p class="text-muted small">TO DO: add rating submission form</p>
+        <div th:if="${ratingError}" class="alert alert-danger" th:text="${ratingError}"></div>
+        <form th:action="@{/establishments/{id}/ratings(id=${establishment.id})}" method="post">
+            <div class="mb-2">
+                <label for="score" class="form-label">Score (1-5)</label>
+                <input type="number" class="form-control" id="score" name="score" min="1" max="5" required>
+            </div>
+            <div class="mb-2">
+                <label for="comment" class="form-label">Comment (optional)</label>
+                <textarea class="form-control" id="comment" name="comment" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Submit rating</button>
+        </form>
     </div>
 
     <div sec:authorize="isAnonymous()" class="my-4 p-3 border rounded bg-light">

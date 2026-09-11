@@ -19,6 +19,9 @@ public class RatingService {
     }
 
     public Rating submitRating(User user, Establishment establishment, int score, String comment) {
+        if (score < 1 || score > 5) {
+            throw new IllegalArgumentException("Score must be between 1 and 5.");
+        }
         Rating rating = new Rating(score, comment, user, establishment);
         establishment.addRating(rating);
         return ratingRepository.save(rating);

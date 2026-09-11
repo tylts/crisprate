@@ -22,6 +22,8 @@
         </div>
     </div>
 
+    <a sec:authorize="isAuthenticated()" th:href="@{/establishments/new}" class="btn btn-success mb-3">+ Add a restaurant</a>
+
     <form th:action="@{/}" method="get" class="row g-2 mb-4">
         <div class="col">
             <input type="text" class="form-control" name="name" placeholder="Search by restaurant name"
