@@ -50,6 +50,12 @@
             <span class="text-muted-small" th:text="${#temporals.format(r.createdAt, 'MMM d, yyyy')}"></span>
         </div>
         <p class="mb-0" th:text="${r.comment}"></p>
+
+        <form th:if="${#authentication.name == r.user.username}"
+              th:action="@{/ratings/{id}/delete(id=${r.id})}" method="post" class="d-inline">
+            <a th:href="@{/ratings/{id}/edit(id=${r.id})}" class="btn btn-outline-secondary btn-sm">Edit</a>
+            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+        </form>
     </div>
 
 </div>

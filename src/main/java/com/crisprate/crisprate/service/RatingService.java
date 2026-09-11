@@ -28,6 +28,9 @@ public class RatingService {
     }
 
     public Rating updateRating(Long ratingId, User requestingUser, int newScore, String newComment) {
+        if (newScore < 1 || newScore > 5) {
+            throw new IllegalArgumentException("Score must be between 1 and 5.");
+        }
         Rating rating = getById(ratingId);
         assertOwnership(rating, requestingUser);
         rating.setScore(newScore);
@@ -49,7 +52,7 @@ public class RatingService {
         return ratingRepository.findByUserIdOrderByCreatedAtDesc(userId);
     }
 
-    private Rating getById(Long ratingId) {
+    public Rating getById(Long ratingId) {
         return ratingRepository.findById(ratingId)
                 .orElseThrow(() -> new NoSuchElementException("Rating not found with id: " + ratingId));
     }
