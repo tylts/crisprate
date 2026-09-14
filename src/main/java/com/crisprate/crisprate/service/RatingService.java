@@ -44,6 +44,11 @@ public class RatingService {
         ratingRepository.delete(rating);
     }
 
+    public void adminDeleteRating(Long ratingId) {
+        Rating rating = getById(ratingId);
+        ratingRepository.delete(rating);
+    }
+
     public List<Rating> getRatingsForEstablishment(Long establishmentId) {
         return ratingRepository.findByEstablishmentIdOrderByCreatedAtDesc(establishmentId);
     }
