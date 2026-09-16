@@ -1,15 +1,13 @@
 package com.crisprate.crisprate.controller;
 
 import com.crisprate.crisprate.entity.Establishment;
+import com.crisprate.crisprate.entity.FastFoodChain;
 import com.crisprate.crisprate.entity.Rating;
 import com.crisprate.crisprate.service.EstablishmentService;
 import com.crisprate.crisprate.service.RatingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +49,42 @@ public class AdminController {
         establishmentService.delete(id);
         return "redirect:/admin";
     }
+
+    @GetMapping("/establishments/{id}/edit")
+    public String editEstablishmentForm(
+            @PathVariable Long id,
+            Model model) {
+        model.addAttribute("establishment", establishmentService.getById(id));
+        return "admin-establishment-edit";
+    }
+
+    @PostMapping("/establishments/{id}/edit")
+    public String updateEstablishment(
+            @PathVariable Long id,
+            @RequestParam String name,
+            @RequestParam String address,
+            @RequestParam String city,
+            @RequestParam(required = false) String chainName,
+            Model model) {
+
+        Establishment establishment = establishmentService.getById(id);
+
+        if (name.isBlank() || address.isBlank() || city.isBlank()) {
+            model.addAttribute("error", "Name, address, and city are all required.");
+            model.addAttribute("establishment", establishment);
+            return "admin-establishment-edit";
+        }
+
+        if (establishment instanceof FastFoodChain && (chainName == null || chainName.isBlank())) {
+            model.addAttribute("error", "The name of the restaurant chain is required.");
+            model.addAttribute("establishment", establishment);
+            return "admin-establishment-edit";
+        }
+
+        establishmentService.update(id, name, address, city, chainName);
+        return "redirect:/admin";
+    }
+
 
 
 

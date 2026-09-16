@@ -2,6 +2,7 @@ package com.crisprate.crisprate.service;
 
 import com.crisprate.crisprate.entity.Establishment;
 import com.crisprate.crisprate.entity.FastFoodChain;
+import com.crisprate.crisprate.entity.User;
 import com.crisprate.crisprate.repository.EstablishmentRepository;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,20 @@ public class EstablishmentService {
 
         double average = count == 0 ? 0.0 : total / count;
         chain.setChainAverageScore(average);
+    }
+
+    public Establishment update(Long id, String name, String address, String city, String chainName) {
+
+        Establishment establishment = getById(id);
+        establishment.setName(name);
+        establishment.setAddress(address);
+        establishment.setCity(city);
+
+        if (establishment instanceof FastFoodChain chain) {
+            chain.setChainName(chainName);
+        }
+
+        return establishmentRepository.save(establishment);
     }
 
 }

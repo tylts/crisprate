@@ -23,6 +23,7 @@
                 <form th:action="@{/admin/establishments/{id}/delete(id=${e.id})}" method="post" class="d-inline">
                     <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
                 </form>
+                <a th:href="@{/admin/establishments/{id}/edit(id=${e.id})}" class="btn btn-outline-secondary btn-sm">Edit</a>
             </td>
         </tr>
         </tbody>

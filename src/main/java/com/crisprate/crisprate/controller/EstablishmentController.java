@@ -1,19 +1,19 @@
 package com.crisprate.crisprate.controller;
 
-import com.crisprate.crisprate.entity.Establishment;
-import com.crisprate.crisprate.entity.FastFoodChain;
-import com.crisprate.crisprate.entity.Rating;
-import com.crisprate.crisprate.entity.Restaurant;
+import com.crisprate.crisprate.entity.*;
 import com.crisprate.crisprate.service.EstablishmentService;
 import com.crisprate.crisprate.service.RatingService;
+import com.crisprate.crisprate.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,10 +23,12 @@ public class EstablishmentController {
     private static final Logger log = LoggerFactory.getLogger(EstablishmentController.class);
     private final EstablishmentService establishmentService;
     private final RatingService ratingService;
+    private final UserService userService;
 
-    public EstablishmentController(EstablishmentService establishmentService, RatingService ratingService) {
+    public EstablishmentController(EstablishmentService establishmentService, RatingService ratingService, UserService userService) {
         this.establishmentService = establishmentService;
         this.ratingService = ratingService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -66,10 +68,13 @@ public class EstablishmentController {
         return "establishment-detail";
     }
 
+
+
     @GetMapping("/establishments/new")
     public String newEstablishmentForm() {
         return "establishment-form";
     }
+
 
     @PostMapping("/establishments")
     public String createEstablishment(
