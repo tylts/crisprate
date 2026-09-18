@@ -20,9 +20,9 @@ public class ReportService {
         List<Establishment> establishments;
 
         if (cityFilter != null && !cityFilter.isBlank()) {
-            establishments = establishmentService.searchByCity(cityFilter);
+            establishments = establishmentService.searchByCityUnpaged(cityFilter);
         } else {
-            establishments = establishmentService.getAll();
+            establishments = establishmentService.getAllUnpaged();
         }
 
         List<ReportRow> rows = new ArrayList<>();

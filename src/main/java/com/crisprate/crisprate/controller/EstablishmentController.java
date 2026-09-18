@@ -6,6 +6,9 @@ import com.crisprate.crisprate.service.RatingService;
 import com.crisprate.crisprate.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,22 +38,26 @@ public class EstablishmentController {
     public String home(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String city,
+            @RequestParam(defaultValue = "0") int page,
             Model model) {
 
-        List<Establishment> results;
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Establishment> results;
 
         if (name != null && !name.isBlank()) {
-            results = establishmentService.searchByName(name);
+            results = establishmentService.searchByName(name, pageable);
         } else if (city != null && !city.isBlank()) {
-            results = establishmentService.searchByCity(city);
+            results = establishmentService.searchByCity(city, pageable);
         } else {
-            results = establishmentService.getAll();
+            results = establishmentService.getAll(pageable);
         }
 
-        model.addAttribute("establishments", results);
-        model.addAttribute("scores", scoresFor(results));
+        model.addAttribute("establishments", results.getContent());
+        model.addAttribute("scores", scoresFor(results.getContent()));
         model.addAttribute("searchName", name);
         model.addAttribute("searchCity", city);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", results.getTotalPages());
 
         return "home";
     }

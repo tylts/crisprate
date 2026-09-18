@@ -26,7 +26,7 @@ public class AdminController {
 
     @GetMapping
     public String dashboard(Model model) {
-        List<Establishment> establishments = establishmentService.getAll();
+        List<Establishment> establishments = establishmentService.getAllUnpaged();
 
         List<Rating> allRatings = new ArrayList<>();
         for (Establishment e : establishments) {
@@ -68,6 +68,13 @@ public class AdminController {
             Model model) {
 
         Establishment establishment = establishmentService.getById(id);
+
+        establishment.setName(name);
+        establishment.setAddress(address);
+        establishment.setCity(city);
+        if (establishment instanceof FastFoodChain chain) {
+            chain.setChainName(chainName);
+        }
 
         if (name.isBlank() || address.isBlank() || city.isBlank()) {
             model.addAttribute("error", "Name, address, and city are all required.");

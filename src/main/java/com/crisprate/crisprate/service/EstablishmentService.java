@@ -4,6 +4,8 @@ import com.crisprate.crisprate.entity.Establishment;
 import com.crisprate.crisprate.entity.FastFoodChain;
 import com.crisprate.crisprate.entity.User;
 import com.crisprate.crisprate.repository.EstablishmentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,16 +29,24 @@ public class EstablishmentService {
                 .orElseThrow(() -> new NoSuchElementException("Establishment not found with id: " + id));
     }
 
-    public List<Establishment> getAll() {
+    public Page<Establishment> getAll(Pageable pageable) {
+        return establishmentRepository.findAll(pageable);
+    }
+
+    public List<Establishment> getAllUnpaged() {
         return establishmentRepository.findAll();
     }
 
-    public List<Establishment> searchByName(String name) {
-        return establishmentRepository.findByNameContainingIgnoreCase(name);
+    public List<Establishment> searchByCityUnpaged(String city) {
+        return establishmentRepository.findByCityContainingIgnoreCase(city, Pageable.unpaged()).getContent();
     }
 
-    public List<Establishment> searchByCity(String city) {
-        return establishmentRepository.findByCityContainingIgnoreCase(city);
+    public Page<Establishment> searchByName(String name, Pageable pageable) {
+        return establishmentRepository.findByNameContainingIgnoreCase(name, pageable);
+    }
+
+    public Page<Establishment> searchByCity(String city, Pageable pageable) {
+        return establishmentRepository.findByCityContainingIgnoreCase(city, pageable);
     }
 
     public void delete(Long id) {
