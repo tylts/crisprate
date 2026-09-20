@@ -82,6 +82,11 @@ public class EstablishmentController {
         return "establishment-form";
     }
 
+    @PostMapping("/seed")
+    public String seed(){
+        establishmentService.seedDemoData();
+        return "redirect:/";
+    }
 
     @PostMapping("/establishments")
     public String createEstablishment(
@@ -118,6 +123,8 @@ public class EstablishmentController {
         Establishment saved = establishmentService.save(establishment);
         return "redirect:/establishments/" + saved.getId();
     }
+
+    @PostMapping("/establishment")
 
 
     private java.util.Map<Long, Double> scoresFor(List<Establishment> establishments) {

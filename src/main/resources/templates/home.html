@@ -40,7 +40,7 @@
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
         <div class="col-auto">
-            <a th:href="@{/}" class="btn btn-outline-secondary">Search</a>
+            <a th:href="@{/}" class="btn btn-outline-secondary">Clear</a>
         </div>
     </form>
 
@@ -55,6 +55,10 @@
             <span class="badge bg-primary rounded-pill" th:text="${#numbers.formatDecimal(scores.get(e.id), 1, 1)} + ' / 5'"></span>
         </a>
     </div>
+
+    <form th:if="${establishments.isEmpty()}" th:action="@{/seed}" method="post">
+        <button type="submit" class="btn btn-outline-secondary btn-sm">Add demo data</button>
+    </form>
 
     <nav th:if="${totalPages > 1}" class="mt-4">
         <ul class="pagination justify-content-center">
