@@ -37,6 +37,15 @@ public class RatingServiceTest {
     }
 
     @Test
+    void submitRating_throwsException_whenScoreTooHigh() {
+        User user = new User("testuser", "test@example.com", "password", User.Role.USER);
+        Restaurant restaurant = new Restaurant("Test Diner", "123 Main St", "Fort Worth");
+
+        assertThrows(IllegalArgumentException.class, () ->
+                ratingService.submitRating(user, restaurant, 6, "Bad score"));
+    }
+
+    @Test
     void deleteRating_throwsSecurityException_whenNotOwner() {
         User owner = new User("owner", "owner@example.com", "pass", User.Role.USER);
         User intruder = new User("intruder", "intruder@example.com", "pass", User.Role.USER);
