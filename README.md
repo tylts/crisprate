@@ -72,7 +72,7 @@ To use a different database, set these environment variables:
 mvn test
 ```
 
-<14> unit tests cover the entity scoring logic and the service layer. Writing them caught a real bug: score bounds (1–5) weren't enforced when submitting or updating a rating.
+14 unit tests cover the entity scoring logic and the service layer.
 
 ## About
 
